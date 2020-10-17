@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  db:
+    build: ./db
+    container_name: task_manage_db
+    environment:
+      MYSQL_ROOT_PASSWORD: 
+      MYSQL_DATABASE: 
+      MYSQL_USER: 
+      MYSQL_PASSWORD: 
+      TZ: 'Asia/Tokyo'
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+    - ./db/sql:/docker-entrypoint-initdb.d
+    ports:
+    - 3306:3306
