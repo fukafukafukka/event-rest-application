@@ -18,6 +18,7 @@
 1. 解凍したソース（プロジェクト）内の[docker/dev/]ディレクトリに移動する。
 2. 移動したディレクトリ配置されている[docker-compose]ファイル内の、[MYSQL_ROOT_PASSWORD],[MYSQL_DATABASE],[MYSQL_USER],[MYSQL_PASSWORD]の値を任意の値に設定する。
 3. 移動したディレクトリにて、次のコマンドを実行し、DBコンテナを起動させる。[docker-compose up]
+4. ファイル[/RestApi/src/main/resources/application.properties]内の[spring.datasource.username],[spring.datasource.password]の値をdocker-composeファイルの値と揃えて記入する。
 
 ## 4.動作チェック
 ### task一覧取得
