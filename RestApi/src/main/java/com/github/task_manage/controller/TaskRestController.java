@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.github.task_manage.controller;
 
 import java.util.List;
 
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.domain.model.Task;
-import com.example.demo.service.RestService;
+import com.github.task_manage.domain.model.Task;
+import com.github.task_manage.service.RestService;
 
 @RestController
 public class TaskRestController {

@@ -1,12 +1,12 @@
-package com.example.demo.service;
+package com.github.task_manage.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.domain.model.Task;
-import com.example.demo.domain.repository.mybatis.TaskMapper;
+import com.github.task_manage.domain.model.Task;
+import com.github.task_manage.domain.repository.mybatis.TaskMapper;
 
 @Service("TaskManageService")
 public class TaskManageService implements RestService {

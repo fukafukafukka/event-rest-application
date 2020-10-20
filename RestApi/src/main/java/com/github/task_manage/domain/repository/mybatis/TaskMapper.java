@@ -1,11 +1,11 @@
-package com.example.demo.domain.repository.mybatis;
+package com.github.task_manage.domain.repository.mybatis;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.dao.DataAccessException;
 
-import com.example.demo.domain.model.Task;
+import com.github.task_manage.domain.model.Task;
 
 @Mapper
 public interface TaskMapper {

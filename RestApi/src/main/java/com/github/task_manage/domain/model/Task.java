@@ -1,4 +1,4 @@
-package com.example.demo.domain.model;
+package com.github.task_manage.domain.model;
 
 import lombok.Data;
 

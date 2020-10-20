@@ -1,8 +1,8 @@
-package com.example.demo.service;
+package com.github.task_manage.service;
 
 import java.util.List;
 
-import com.example.demo.domain.model.Task;
+import com.github.task_manage.domain.model.Task;
 
 public interface RestService {
 
