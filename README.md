@@ -28,7 +28,7 @@
 ### task一件追加
 1. ターミナルにて次のリクエストを実行する。[curl -X POST -H "Content-Type:application/json" -d "{\"taskName\":\"commit作成\",\"taskDetail\":\"RestAPI作成分をcommit\",\"status\":\"working\"}" http://localhost:8080/rest/insert]
 ### task1件更新
-1. ターミナルにて次のリクエストを実行する。[curl -X PUT -H "Content-Type:application/json" -d "{\"taskNumber\":\"2\",\"taskName\":\"commit作成\",\"taskDetail\":\"RestAPI作成分をcommit\",\"status\":\"Done\"}" http://localhost:8080/rest/update]
+1. ターミナルにて次のリクエストを実行する。[curl -X PUT -H "Content-Type:application/json" -d "{\"taskId\":\"2\",\"taskName\":\"commit作成\",\"taskDetail\":\"RestAPI作成分をcommit\",\"status\":\"Done\"}" http://localhost:8080/rest/update]
 ### task1件削除
 1. ターミナルにて次のリクエストを実行する。[curl -X DELETE http://localhost:8080/rest/delete/2]
 

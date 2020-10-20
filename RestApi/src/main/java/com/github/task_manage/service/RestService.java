@@ -10,7 +10,7 @@ public interface RestService {
     public boolean insertOne(Task task);
 
     //１件検索用メソッド
-    public Task selectOne(int taskNumber);
+    public Task selectOne(int taskId);
 
     //全件検索用メソッド
     public List<Task> selectMany();
@@ -19,5 +19,5 @@ public interface RestService {
     public boolean updateOne(Task task);
 
     //１件削除用メソッド
-    public boolean deleteOne(int taskNumber);
+    public boolean deleteOne(int taskId);
 }

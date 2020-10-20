@@ -21,9 +21,9 @@ public class TaskManageService implements RestService {
 	}
 
 	@Override
-	public Task selectOne(int taskNumber) {
+	public Task selectOne(int taskId) {
 		// select実行
-		return taskMapper.selectOne(taskNumber);
+		return taskMapper.selectOne(taskId);
 	}
 
 	@Override
@@ -39,9 +39,9 @@ public class TaskManageService implements RestService {
 	}
 
 	@Override
-	public boolean deleteOne(int taskNumber) {
+	public boolean deleteOne(int taskId) {
 		// delete実行
-		return taskMapper.deleteOne(taskNumber);
+		return taskMapper.deleteOne(taskId);
 	}
 
 }

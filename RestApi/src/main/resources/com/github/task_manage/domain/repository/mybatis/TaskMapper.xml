@@ -2,24 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.demo.domain.repository.mybatis.TaskMapper">
+<mapper namespace="com.github.task_manage.domain.repository.mybatis.TaskMapper">
 	<!-- マッピング定義 -->
-    <resultMap type="com.example.demo.domain.model.Task" id="task">
-        <id column="task_number" property="taskNumber" />
+    <resultMap type="com.github.task_manage.domain.model.Task" id="task">
+        <id column="task_id" property="taskId" />
         <result column="task_name" property="taskName" />
         <result column="task_detail" property="taskDetail" />
         <result column="status" property="status" />
     </resultMap>
 
 	 <!-- １件insert -->
-    <insert id="insertOne" parameterType="com.example.demo.domain.model.Task">
+    <insert id="insertOne" parameterType="com.github.task_manage.domain.model.Task">
         INSERT INTO task_manage_table (
-            task_number,
+            task_id,
 			task_name,
 			task_detail,
 			status)
         VALUES (
-            #{taskNumber},
+            #{taskId},
             #{taskName},
             #{taskDetail},
             #{status})
@@ -28,20 +28,20 @@
     <!-- １件検索 -->
     <select id="selectOne" parameterType="int" resultMap="task">
         SELECT
-            task_number,
+            task_id,
 			task_name,
 			task_detail,
 			status
         FROM
             task_manage_table
         WHERE
-            task_number = #{taskNumber}
+            task_id = #{taskId}
     </select>
 
     <!-- 全件検索 -->
     <select id="selectMany" resultMap="task">
     	SELECT
-    		task_number,
+    		task_id,
 			task_name,
 			task_detail,
 			status
@@ -50,17 +50,17 @@
     </select>
 
 	<!-- １件更新 -->
-    <update id="updateOne" parameterType="com.example.demo.domain.model.Task">
+    <update id="updateOne" parameterType="com.github.task_manage.domain.model.Task">
         UPDATE task_manage_table
         SET
             task_name = #{taskName},
             task_detail = #{taskDetail},
             status = #{status}
-        WHERE task_number = #{taskNumber}
+        WHERE task_id = #{taskId}
     </update>
 
     <!-- １件削除 -->
     <delete id="deleteOne" parameterType="int">
-        DELETE FROM task_manage_table WHERE task_number = #{taskNumber}
+        DELETE FROM task_manage_table WHERE task_id = #{taskId}
     </delete>
 </mapper>

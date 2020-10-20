@@ -14,7 +14,7 @@ public interface TaskMapper {
     public boolean insertOne(Task task) throws DataAccessException;
 
 	// task_manageテーブルデータを1件取得
-	public Task selectOne(int taskNumber) throws DataAccessException;
+	public Task selectOne(int taskId) throws DataAccessException;
 
 	// task_manageテーブルの全データを取得
 	public List<Task> selectMany() throws DataAccessException;
@@ -23,5 +23,5 @@ public interface TaskMapper {
     public boolean updateOne(Task task) throws DataAccessException;
 
     // task_manageテーブルを１件削除.
-    public boolean deleteOne(int taskNumber) throws DataAccessException;
+    public boolean deleteOne(int taskId) throws DataAccessException;
 }

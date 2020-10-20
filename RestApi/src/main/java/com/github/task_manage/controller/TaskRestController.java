@@ -36,10 +36,10 @@ public class TaskRestController {
      * タスク１件取得
      */
     @GetMapping("/rest/get/{id:.+}")
-    public Task getTaskOne(@PathVariable("id") int taskNumber) {
+    public Task getTaskOne(@PathVariable("id") int taskId) {
 
         // タスク１件取得
-        return service.selectOne(taskNumber);
+        return service.selectOne(taskId);
     }
 
     /**
@@ -85,10 +85,10 @@ public class TaskRestController {
     }
 
     @DeleteMapping("/rest/delete/{id:.+}")
-    public String deleteTaskOne(@PathVariable("id") int taskNumber) {
+    public String deleteTaskOne(@PathVariable("id") int taskId) {
 
         // タスクを１件削除
-        boolean result = service.deleteOne(taskNumber);
+        boolean result = service.deleteOne(taskId);
 
         String str = "";
 
