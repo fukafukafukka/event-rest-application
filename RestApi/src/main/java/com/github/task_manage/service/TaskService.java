@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.github.task_manage.domain.model.TaskByUser;
 import com.github.task_manage.domain.model.TaskRevisionHistory;
@@ -11,6 +14,7 @@ import com.github.task_manage.domain.repository.mybatis.TaskByUserMapper;
 import com.github.task_manage.domain.repository.mybatis.TaskRevisionHistoryMapper;
 
 @Service("TaskService")
+@Transactional(isolation=Isolation.READ_COMMITTED, propagation=Propagation.REQUIRES_NEW, rollbackFor=Exception.class)
 public class TaskService implements RestService {
 
 	@Autowired
