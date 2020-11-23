@@ -21,14 +21,25 @@
 4. ファイル[/RestApi/src/main/resources/application.properties]内の[spring.datasource.username],[spring.datasource.password]の値をdocker-composeファイルの値と揃えて記入する。
 
 ## 4.動作チェック
-### task一覧取得
-1. ブラウザにて次のリクエストを実行する。[http://localhost:8080/rest/get/]
-### task一件取得
-1. ブラウザにて次のリクエストを実行する。[http://localhost:8080/rest/get/1]
 ### task一件追加
-1. ターミナルにて次のリクエストを実行する。[curl -X POST -H "Content-Type:application/json" -d "{\"taskName\":\"commit作成\",\"taskDetail\":\"RestAPI作成分をcommit\",\"status\":\"working\"}" http://localhost:8080/rest/insert]
-### task1件更新
-1. ターミナルにて次のリクエストを実行する。[curl -X PUT -H "Content-Type:application/json" -d "{\"taskId\":\"2\",\"taskName\":\"commit作成\",\"taskDetail\":\"RestAPI作成分をcommit\",\"status\":\"Done\"}" http://localhost:8080/rest/update]
-### task1件削除
-1. ターミナルにて次のリクエストを実行する。[curl -X DELETE http://localhost:8080/rest/delete/2]
+1. ターミナルにて次のリクエストを実行する。[curl -X POST -H "Content-Type:application/json" -d '{"userId":"1","taskName":"commit作成","taskDetail":"RestAPI作成分をcommit"}' http://localhost:8080/rest/insert]
 
+### ログインユーザーの全task一覧取得
+1. ブラウザにて次のリクエストを実行する。[http://localhost:8080/rest/getAllTasks/1]
+### ログインユーザーの未完了・未削除の全task検索
+1. ブラウザにて次のリクエストを実行する。[http://localhost:8080/rest/getNotYetTasks/1]
+
+### task1件更新（task完了）
+1. ターミナルにて次のリクエストを実行する。[curl -X PUT -H "Content-Type:application/json" -d '{"userId":"1","taskId":"2","taskName":"commit作成","taskDetail":"RestAPI作成分をcommit2","taskDone":"1","deleteFlag":"0"}' http://localhost:8080/rest/update]
+### ログインユーザーの完了済の全task検索
+1. ブラウザにて次のリクエストを実行する。[http://localhost:8080/rest/getNotYetTasks/1]
+
+### task1件更新（task削除）
+1. ターミナルにて次のリクエストを実行する。[curl -X PUT -H "Content-Type:application/json" -d '{"userId":"1","taskId":"2","taskName":"commit作成","taskDetail":"RestAPI作成分をcommit2","taskDone":"1","deleteFlag":"1"}' http://localhost:8080/rest/update]
+### ログインユーザーの削除済の全task検索
+1. ブラウザにて次のリクエストを実行する。[http://localhost:8080/rest/getDeletedTasks/1]
+
+### 1件のタスクに紐づく全履歴を取得
+1. ブラウザにて次のリクエストを実行する。[http://localhost:8080/rest/getAllRevisionsOnOneTask/2]
+### 1人のユーザーに紐づく全履歴を取得
+1. ブラウザにて次のリクエストを実行する。[http://localhost:8080/rest/getAllRevisions/1]

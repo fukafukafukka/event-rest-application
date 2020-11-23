@@ -2,22 +2,33 @@ package com.github.task_manage.service;
 
 import java.util.List;
 
-import com.github.task_manage.domain.model.Task;
+import com.github.task_manage.domain.model.TaskByUser;
+import com.github.task_manage.domain.model.TaskRevisionHistory;
 
 public interface RestService {
 
-	//１件登録用メソッド
-    public boolean insertOne(Task task);
+	//１件タスクを登録するメソッド
+    public boolean insertTask(TaskByUser taskByUser);
 
-    //１件検索用メソッド
-    public Task selectOne(int taskId);
+    //全件タスクを取得するメソッド
+    public List<TaskByUser> selectAllTasks(int userId);
 
-    //全件検索用メソッド
-    public List<Task> selectMany();
+    //未完了・未削除の全タスクを取得するメソッド
+    public List<TaskByUser> selectNotYetTasks(int userId);
 
-    //１件更新用メソッド
-    public boolean updateOne(Task task);
+    //完了した全タスクを取得するメソッド
+    public List<TaskByUser> selectDoneTasks(int userId);
 
-    //１件削除用メソッド
-    public boolean deleteOne(int taskId);
+    //削除した全タスクを取得するメソッド
+    public List<TaskByUser> selectDeletedTasks(int userId);
+
+    //１件タスクを更新するメソッド
+    public boolean updateTask(TaskByUser taskByUser);
+
+    //全件履歴を取得するメソッド
+    public List<TaskRevisionHistory> selectRevisionsOnOneTask(int taskId);
+
+    //全件履歴を取得するメソッド
+    public List<TaskRevisionHistory> selectAllRevisions(int userId);
+
 }

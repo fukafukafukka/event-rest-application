@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,93 +12,113 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.task_manage.domain.model.Task;
+import com.github.task_manage.domain.model.TaskByUser;
+import com.github.task_manage.domain.model.TaskRevisionHistory;
 import com.github.task_manage.service.RestService;
 
 @RestController
 public class TaskRestController {
 
 	@Autowired
-    @Qualifier("TaskManageService")
+    @Qualifier("TaskService")
     RestService service;
 
 	/**
      * タスク全件取得
      */
-    @GetMapping("/rest/get")
-    public List<Task> getTaskMany() {
+    @GetMapping("/rest/getAllTasks/{id:.+}")
+    @CrossOrigin(origins = {"http://localhost:8081"}, allowCredentials = "true")
+    public List<TaskByUser> getAllTasks(@PathVariable("id") int userId) {
 
         // タスク全件取得
-        return service.selectMany();
+        return service.selectAllTasks(userId);
     }
 
     /**
-     * タスク１件取得
+     * 未完了・未削除の全件タスクを取得するメソッド
      */
-    @GetMapping("/rest/get/{id:.+}")
-    public Task getTaskOne(@PathVariable("id") int taskId) {
+    @GetMapping("/rest/getNotYetTasks/{id:.+}")
+    @CrossOrigin(origins = {"http://localhost:8081"}, allowCredentials = "true")
+    public List<TaskByUser> getNotYetTasks(@PathVariable("id") int userId) {
 
-        // タスク１件取得
-        return service.selectOne(taskId);
+        // 未完了・未削除のタスク全取得
+        return service.selectNotYetTasks(userId);
+    }
+
+    /**
+     * 完了した全タスクを取得するメソッド
+     */
+    @GetMapping("/rest/getDoneTasks/{id:.+}")
+    @CrossOrigin(origins = {"http://localhost:8081"}, allowCredentials = "true")
+    public List<TaskByUser> getDoneTasks(@PathVariable("id") int userId) {
+
+        // 完了した全タスクを取得
+        return service.selectDoneTasks(userId);
+    }
+
+    /**
+     * 削除した全タスクを取得するメソッド
+     */
+    @GetMapping("/rest/getDeletedTasks/{id:.+}")
+    @CrossOrigin(origins = {"http://localhost:8081"}, allowCredentials = "true")
+    public List<TaskByUser> getDeletedTasks(@PathVariable("id") int userId) {
+
+        // 削除した全タスクを取得
+        return service.selectDeletedTasks(userId);
     }
 
     /**
      * タスク１件登録
      */
     @PostMapping("/rest/insert")
-    public String postUserOne(@RequestBody Task task) {
+    @CrossOrigin(origins = {"http://localhost:8081"}, allowCredentials = "true")
+    public String postUserOne(@RequestBody TaskByUser taskByUser) {
 
         // タスクを１件登録
-        boolean result = service.insertOne(task);
-
-        String str = "";
+        boolean result = service.insertTask(taskByUser);
 
         if(result == true) {
-            str = "{\"result\":\"ok\"}";
+            return "{\"result\":\"ok\"}";
         } else {
-            str = "{\"result\":\"error\"}";
+            return "{\"result\":\"error\"}";
         }
-
-        // 結果用の文字列をリターン
-        return str;
     }
 
     /**
-     * タスク１件登録
+     * タスク１件更新
      */
     @PutMapping("/rest/update")
-    public String putTaskOne(@RequestBody Task task) {
-
+    @CrossOrigin(origins = {"http://localhost:8081"}, allowCredentials = "true")
+    public String putTaskOne(@RequestBody TaskByUser taskByUser) {
         // タスクを１件登録
-        boolean result = service.updateOne(task);
-
-        String str = "";
+        boolean result = service.updateTask(taskByUser);
 
         if(result == true) {
-            str = "{\"result\":\"ok\"}";
+        	return "{\"result\":\"ok\"}";
         } else {
-            str = "{\"result\":\"error\"}";
+        	return "{\"result\":\"error\"}";
         }
-
-        // 結果用の文字列をリターン
-        return str;
     }
 
-    @DeleteMapping("/rest/delete/{id:.+}")
-    public String deleteTaskOne(@PathVariable("id") int taskId) {
+    /**
+     * 1件のタスクに紐づく全履歴を取得
+     */
+    @GetMapping("/rest/getAllRevisionsOnOneTask/{id:.+}")
+    @CrossOrigin(origins = {"http://localhost:8081"}, allowCredentials = "true")
+    public List<TaskRevisionHistory> getAllRevisionsOnOneTask(@PathVariable("id") int taskId) {
 
-        // タスクを１件削除
-        boolean result = service.deleteOne(taskId);
+        // タスク全件取得
+        return service.selectRevisionsOnOneTask(taskId);
+    }
 
-        String str = "";
+    /**
+     * 1人のユーザーに紐づく全履歴を取得
+     */
+    @GetMapping("/rest/getAllRevisions/{id:.+}")
+    @CrossOrigin(origins = {"http://localhost:8081"}, allowCredentials = "true")
+    public List<TaskRevisionHistory> getAllRevisions(@PathVariable("id") int userId) {
 
-        if(result == true) {
-            str = "{\"result\":\"ok\"}";
-        } else {
-            str = "{\"result\":\"error\"}";
-        }
-
-        // 結果用の文字列をリターン
-        return str;
+        // タスク全件取得
+        return service.selectAllRevisions(userId);
     }
 }
