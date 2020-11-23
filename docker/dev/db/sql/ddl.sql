@@ -1,7 +1,7 @@
 /* ユーザーテーブル */
 CREATE TABLE IF NOT EXISTS user (
   user_id int NOT NULL AUTO_INCREMENT COMMENT 'ユーザーID',
-  user_name varchar(30) UNIQUE NOT NULL COMMENT 'ユーザー名',
+  user_name varchar(30) NOT NULL COMMENT 'ユーザー名',
   mail_address varchar(20) NOT NULL COMMENT 'メールアドレス',
   password varchar(60) NOT NULL COMMENT 'パスワード',
   user_role varchar(10) NOT NULL DEFAULT 'USER' COMMENT '閲覧権限',
@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS user (
 CREATE TABLE IF NOT EXISTS task_by_user (
   task_id int NOT NULL AUTO_INCREMENT COMMENT 'タスクID',
   user_id int COMMENT 'ユーザーID',
-  task_name varchar(30) UNIQUE NOT NULL COMMENT 'タスク名',
+  task_name varchar(30) NOT NULL COMMENT 'タスク名',
   task_detail varchar(50) NOT NULL COMMENT 'タスク詳細',
   task_done boolean NOT NULL DEFAULT false COMMENT 'タスク完了',
   delete_flag int NOT NULL DEFAULT 0 COMMENT '削除フラグ',
