@@ -10,7 +10,7 @@ public class TaskRevisionHistory {
 	private int taskId;
 	private String taskName;
 	private String taskDetail;
-	private int taskDone;
+	private int doneFlag;
 	private int deleteFlag;
 	private Timestamp insertDateTimes;
 }

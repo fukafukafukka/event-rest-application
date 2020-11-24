@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS task_by_user (
   user_id int COMMENT 'ユーザーID',
   task_name varchar(30) NOT NULL COMMENT 'タスク名',
   task_detail varchar(50) NOT NULL COMMENT 'タスク詳細',
-  task_done boolean NOT NULL DEFAULT false COMMENT 'タスク完了',
+  done_flag boolean NOT NULL DEFAULT false COMMENT 'タスク完了',
   delete_flag int NOT NULL DEFAULT 0 COMMENT '削除フラグ',
   PRIMARY KEY (task_id),
   CONSTRAINT fk_user_id
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS task_revision_history (
   task_id int COMMENT 'タスクID',
   task_name varchar(30) NOT NULL COMMENT 'タスク名',
   task_detail varchar(50) NOT NULL COMMENT 'タスク詳細',
-  task_done boolean NOT NULL DEFAULT false COMMENT 'タスク完了',
+  done_flag boolean NOT NULL DEFAULT false COMMENT 'タスク完了',
   delete_flag int NOT NULL DEFAULT 0 COMMENT '削除フラグ',
   insert_date_times TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '登録日付',
   PRIMARY KEY (task_revision_id),

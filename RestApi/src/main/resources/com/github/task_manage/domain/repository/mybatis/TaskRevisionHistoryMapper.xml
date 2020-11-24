@@ -9,7 +9,7 @@
 		<result column="task_id" property="taskId" />
         <result column="task_name" property="taskName" />
         <result column="task_detail" property="taskDetail" />
-        <result column="task_done" property="taskDone" />
+        <result column="done_flag" property="doneFlag" />
         <result column="delete_flag" property="deleteFlag" />
         <result column="insert_date_times" property="insertDateTimes" />
 	</resultMap>
@@ -20,13 +20,13 @@
             task_id,
             task_name,
             task_detail,
-            task_done,
+            done_flag,
             delete_flag)
         SELECT
         	task_id,
         	task_name,
         	task_detail,
-        	task_done,
+        	done_flag,
         	delete_flag
         FROM task_by_user
         	WHERE user_id = #{userId}
@@ -40,13 +40,13 @@
             task_id,
             task_name,
             task_detail,
-            task_done,
+            done_flag,
             delete_flag)
         VALUES (
         	#{taskId},
         	#{taskName},
         	#{taskDetail},
-        	#{taskDone},
+        	#{doneFlag},
         	#{deleteFlag})
     </insert>
 
@@ -57,7 +57,7 @@
     		task_id,
 			task_name,
 			task_detail,
-			task_done,
+			done_flag,
 			delete_flag,
 			insert_date_times
         FROM
@@ -73,7 +73,7 @@
     		task_id,
 			task_name,
 			task_detail,
-			task_done,
+			done_flag,
 			delete_flag,
 			insert_date_times
         FROM
@@ -94,7 +94,7 @@
         SET
             task_name = #{taskName},
             task_detail = #{taskDetail},
-            task_done = #{taskDone},
+            done_flag = #{doneFlag},
             delete_flag = #{deleteFlag}
         WHERE task_revision_id = #{taskRevisionId}
     </update>

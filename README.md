@@ -30,12 +30,12 @@
 1. ブラウザにて次のリクエストを実行する。[http://localhost:8080/rest/getNotYetTasks/1]
 
 ### task1件更新（task完了）
-1. ターミナルにて次のリクエストを実行する。[curl -X PUT -H "Content-Type:application/json" -d '{"userId":"1","taskId":"2","taskName":"commit作成","taskDetail":"RestAPI作成分をcommit2","taskDone":"1","deleteFlag":"0"}' http://localhost:8080/rest/update]
+1. ターミナルにて次のリクエストを実行する。[curl -X PUT -H "Content-Type:application/json" -d '{"userId":"1","taskId":"2","taskName":"commit作成","taskDetail":"RestAPI作成分をcommit2","doneFlag":"1","deleteFlag":"0"}' http://localhost:8080/rest/update]
 ### ログインユーザーの完了済の全task検索
 1. ブラウザにて次のリクエストを実行する。[http://localhost:8080/rest/getNotYetTasks/1]
 
 ### task1件更新（task削除）
-1. ターミナルにて次のリクエストを実行する。[curl -X PUT -H "Content-Type:application/json" -d '{"userId":"1","taskId":"2","taskName":"commit作成","taskDetail":"RestAPI作成分をcommit2","taskDone":"1","deleteFlag":"1"}' http://localhost:8080/rest/update]
+1. ターミナルにて次のリクエストを実行する。[curl -X PUT -H "Content-Type:application/json" -d '{"userId":"1","taskId":"2","taskName":"commit作成","taskDetail":"RestAPI作成分をcommit2","doneFlag":"1","deleteFlag":"1"}' http://localhost:8080/rest/update]
 ### ログインユーザーの削除済の全task検索
 1. ブラウザにて次のリクエストを実行する。[http://localhost:8080/rest/getDeletedTasks/1]
 
