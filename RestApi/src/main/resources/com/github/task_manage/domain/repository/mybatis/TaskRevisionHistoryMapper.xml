@@ -10,7 +10,7 @@
         <result column="task_name" property="taskName" />
         <result column="task_detail" property="taskDetail" />
         <result column="done_flag" property="doneFlag" />
-        <result column="delete_flag" property="deleteFlag" />
+        <result column="deleted_flag" property="deletedFlag" />
         <result column="insert_date_times" property="insertDateTimes" />
 	</resultMap>
 
@@ -21,17 +21,15 @@
             task_name,
             task_detail,
             done_flag,
-            delete_flag)
+            deleted_flag)
         SELECT
         	task_id,
         	task_name,
         	task_detail,
         	done_flag,
-        	delete_flag
+        	deleted_flag
         FROM task_by_user
-        	WHERE user_id = #{userId}
-        		order by task_id desc
-        		limit 1
+        	WHERE task_id = #{taskId}
     </insert>
 
     <!-- １件insert -->
@@ -41,13 +39,13 @@
             task_name,
             task_detail,
             done_flag,
-            delete_flag)
+            deleted_flag)
         VALUES (
         	#{taskId},
         	#{taskName},
         	#{taskDetail},
         	#{doneFlag},
-        	#{deleteFlag})
+        	#{deletedFlag})
     </insert>
 
     <!-- 1件のタスクに紐づく全履歴レコード検索 -->
@@ -58,7 +56,7 @@
 			task_name,
 			task_detail,
 			done_flag,
-			delete_flag,
+			deleted_flag,
 			insert_date_times
         FROM
             task_revision_history
@@ -74,7 +72,7 @@
 			task_name,
 			task_detail,
 			done_flag,
-			delete_flag,
+			deleted_flag,
 			insert_date_times
         FROM
             task_revision_history
@@ -95,7 +93,7 @@
             task_name = #{taskName},
             task_detail = #{taskDetail},
             done_flag = #{doneFlag},
-            delete_flag = #{deleteFlag}
+            deleted_flag = #{deletedFlag}
         WHERE task_revision_id = #{taskRevisionId}
     </update>
 

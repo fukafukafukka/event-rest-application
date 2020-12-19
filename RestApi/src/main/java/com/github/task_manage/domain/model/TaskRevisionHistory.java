@@ -11,6 +11,6 @@ public class TaskRevisionHistory {
 	private String taskName;
 	private String taskDetail;
 	private int doneFlag;
-	private int deleteFlag;
+	private int deletedFlag;
 	private Timestamp insertDateTimes;
 }

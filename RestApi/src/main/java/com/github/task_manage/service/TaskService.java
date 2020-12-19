@@ -15,7 +15,7 @@ import com.github.task_manage.domain.repository.mybatis.TaskRevisionHistoryMappe
 
 @Service("TaskService")
 @Transactional(isolation=Isolation.READ_COMMITTED, propagation=Propagation.REQUIRES_NEW, rollbackFor=Exception.class)
-public class TaskService implements RestService {
+public class TaskService implements TaskServiceInterface {
 
 	@Autowired
 	TaskByUserMapper taskByUserMapper;
@@ -24,9 +24,9 @@ public class TaskService implements RestService {
 	TaskRevisionHistoryMapper taskRevisionHistoryMapper;
 
 	@Override
-	public boolean insertTask(TaskByUser taskByUser) {
+	public boolean insert(TaskByUser taskByUser) {
 		// insert実行
-		return taskByUserMapper.insertTask(taskByUser) && taskRevisionHistoryMapper.insertSelectRevision(taskByUser.getUserId());
+		return taskByUserMapper.insert(taskByUser) && taskRevisionHistoryMapper.insertSelectRevision(taskByUser.getUserId());
 	}
 
 	@Override
@@ -54,9 +54,9 @@ public class TaskService implements RestService {
 	}
 
 	@Override
-	public boolean updateTask(TaskByUser taskByUser) {
+	public boolean update(TaskByUser taskByUser) {
 		// update実行
-		return taskByUserMapper.updateTask(taskByUser) && taskRevisionHistoryMapper.insertSelectRevision(taskByUser.getUserId());
+		return taskByUserMapper.update(taskByUser) && taskRevisionHistoryMapper.insertSelectRevision(taskByUser.getTaskId());
 	}
 
 	@Override

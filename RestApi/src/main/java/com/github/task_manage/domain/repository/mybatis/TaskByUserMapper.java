@@ -11,7 +11,7 @@ import com.github.task_manage.domain.model.TaskByUser;
 public interface TaskByUserMapper {
 
 	// 1件レコード投入
-    public boolean insertTask(TaskByUser taskByUser) throws DataAccessException;
+    public boolean insert(TaskByUser taskByUser) throws DataAccessException;
 
 	// userIdに紐づく全レコードを取得
 	public List<TaskByUser> selectAllTasks(int userId) throws DataAccessException;
@@ -26,9 +26,9 @@ public interface TaskByUserMapper {
 	public List<TaskByUser> selectDeletedTasks(int userId) throws DataAccessException;
 
 	// TaskByUserテーブルのレコード1件更新
-    public boolean updateTask(TaskByUser taskByUser) throws DataAccessException;
+    public boolean update(TaskByUser taskByUser) throws DataAccessException;
 
     // 1件レコード削除
     @Deprecated
-    public boolean deleteTask(int taskId) throws DataAccessException;
+    public boolean delete(int taskId) throws DataAccessException;
 }

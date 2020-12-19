@@ -10,11 +10,11 @@
         <result column="task_name" property="taskName" />
         <result column="task_detail" property="taskDetail" />
         <result column="done_flag" property="doneFlag" />
-        <result column="delete_flag" property="deleteFlag" />
+        <result column="deleted_flag" property="deletedFlag" />
     </resultMap>
 
 	<!-- １件insert -->
-    <insert id="insertTask" parameterType="com.github.task_manage.domain.model.TaskByUser">
+    <insert id="insert" parameterType="com.github.task_manage.domain.model.TaskByUser">
         INSERT INTO task_by_user (
             user_id,
 			task_name,
@@ -29,10 +29,11 @@
     <select id="selectAllTasks" parameterType="int" resultMap="TaskByUser">
     	SELECT
     		task_id,
+    		user_id,
 			task_name,
 			task_detail,
 			done_flag,
-			delete_flag
+			deleted_flag
         FROM
             task_by_user
 		WHERE
@@ -43,62 +44,65 @@
     <select id="selectNotYetTasks" parameterType="int" resultMap="TaskByUser">
     	SELECT
     		task_id,
+    		user_id,
 			task_name,
 			task_detail,
 			done_flag,
-			delete_flag
+			deleted_flag
         FROM
             task_by_user
 		WHERE
 			user_id = #{userId}
 			and done_flag = 0
-			and delete_flag = 0
+			and deleted_flag = 0
     </select>
 
     <!-- 完了した全タスク検索 -->
     <select id="selectDoneTasks" parameterType="int" resultMap="TaskByUser">
     	SELECT
     		task_id,
+    		user_id,
 			task_name,
 			task_detail,
 			done_flag,
-			delete_flag
+			deleted_flag
         FROM
             task_by_user
 		WHERE
 			user_id = #{userId}
 			and done_flag = 1
-			and delete_flag = 0
+			and deleted_flag = 0
     </select>
 
     <!-- 削除した全タスク検索(完了したか否かは問わない) -->
     <select id="selectDeletedTasks" parameterType="int" resultMap="TaskByUser">
     	SELECT
     		task_id,
+    		user_id,
 			task_name,
 			task_detail,
 			done_flag,
-			delete_flag
+			deleted_flag
         FROM
             task_by_user
 		WHERE
 			user_id = #{userId}
-			and delete_flag = 1
+			and deleted_flag = 1
     </select>
 
 	<!-- １件更新 -->
-    <update id="updateTask" parameterType="com.github.task_manage.domain.model.TaskByUser">
+    <update id="update" parameterType="com.github.task_manage.domain.model.TaskByUser">
         UPDATE task_by_user
         SET
             task_name = #{taskName},
             task_detail = #{taskDetail},
             done_flag = #{doneFlag},
-            delete_flag = #{deleteFlag}
+            deleted_flag = #{deletedFlag}
         WHERE task_id = #{taskId}
     </update>
 
     <!-- １件削除 -->
-    <delete id="deleteTask" parameterType="int">
+    <delete id="delete" parameterType="int">
         DELETE FROM task_by_user WHERE task_id = #{taskId}
     </delete>
 </mapper>

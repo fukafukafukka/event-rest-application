@@ -10,23 +10,25 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.task_manage.domain.model.TaskByUser;
 import com.github.task_manage.domain.model.TaskRevisionHistory;
-import com.github.task_manage.service.RestService;
+import com.github.task_manage.service.TaskServiceInterface;
 
 @RestController
-public class TaskRestController {
+@RequestMapping("task")
+public class TaskController {
 
 	@Autowired
     @Qualifier("TaskService")
-    RestService service;
+    TaskServiceInterface service;
 
 	/**
      * タスク全件取得
      */
-    @GetMapping("/rest/getAllTasks/{id:.+}")
+    @GetMapping("/getAllTasks/{id:.+}")
     @CrossOrigin(origins = {"http://localhost:8081"}, allowCredentials = "true")
     public List<TaskByUser> getAllTasks(@PathVariable("id") int userId) {
 
@@ -37,7 +39,7 @@ public class TaskRestController {
     /**
      * 未完了・未削除の全件タスクを取得するメソッド
      */
-    @GetMapping("/rest/getNotYetTasks/{id:.+}")
+    @GetMapping("/getNotYetTasks/{id:.+}")
     @CrossOrigin(origins = {"http://localhost:8081"}, allowCredentials = "true")
     public List<TaskByUser> getNotYetTasks(@PathVariable("id") int userId) {
 
@@ -48,7 +50,7 @@ public class TaskRestController {
     /**
      * 完了した全タスクを取得するメソッド
      */
-    @GetMapping("/rest/getDoneTasks/{id:.+}")
+    @GetMapping("/getDoneTasks/{id:.+}")
     @CrossOrigin(origins = {"http://localhost:8081"}, allowCredentials = "true")
     public List<TaskByUser> getDoneTasks(@PathVariable("id") int userId) {
 
@@ -59,7 +61,7 @@ public class TaskRestController {
     /**
      * 削除した全タスクを取得するメソッド
      */
-    @GetMapping("/rest/getDeletedTasks/{id:.+}")
+    @GetMapping("/getDeletedTasks/{id:.+}")
     @CrossOrigin(origins = {"http://localhost:8081"}, allowCredentials = "true")
     public List<TaskByUser> getDeletedTasks(@PathVariable("id") int userId) {
 
@@ -70,12 +72,12 @@ public class TaskRestController {
     /**
      * タスク１件登録
      */
-    @PostMapping("/rest/insert")
+    @PostMapping("/insert")
     @CrossOrigin(origins = {"http://localhost:8081"}, allowCredentials = "true")
     public String postUserOne(@RequestBody TaskByUser taskByUser) {
 
         // タスクを１件登録
-        boolean result = service.insertTask(taskByUser);
+        boolean result = service.insert(taskByUser);
 
         if(result == true) {
             return "{\"result\":\"ok\"}";
@@ -87,11 +89,11 @@ public class TaskRestController {
     /**
      * タスク１件更新
      */
-    @PutMapping("/rest/update")
+    @PutMapping("/update")
     @CrossOrigin(origins = {"http://localhost:8081"}, allowCredentials = "true")
     public String putTaskOne(@RequestBody TaskByUser taskByUser) {
         // タスクを１件登録
-        boolean result = service.updateTask(taskByUser);
+        boolean result = service.update(taskByUser);
 
         if(result == true) {
         	return "{\"result\":\"ok\"}";
@@ -103,7 +105,7 @@ public class TaskRestController {
     /**
      * 1件のタスクに紐づく全履歴を取得
      */
-    @GetMapping("/rest/getAllRevisionsOnOneTask/{id:.+}")
+    @GetMapping("/getAllRevisionsOnOneTask/{id:.+}")
     @CrossOrigin(origins = {"http://localhost:8081"}, allowCredentials = "true")
     public List<TaskRevisionHistory> getAllRevisionsOnOneTask(@PathVariable("id") int taskId) {
 
@@ -114,7 +116,7 @@ public class TaskRestController {
     /**
      * 1人のユーザーに紐づく全履歴を取得
      */
-    @GetMapping("/rest/getAllRevisions/{id:.+}")
+    @GetMapping("/getAllRevisions/{id:.+}")
     @CrossOrigin(origins = {"http://localhost:8081"}, allowCredentials = "true")
     public List<TaskRevisionHistory> getAllRevisions(@PathVariable("id") int userId) {
 

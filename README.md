@@ -1,4 +1,3 @@
-# event-rest-application
 # README #
 タスク管理アプリのCRUDな"REST API"です。
 
@@ -21,25 +20,51 @@
 4. ファイル[/RestApi/src/main/resources/application.properties]内の[spring.datasource.username],[spring.datasource.password]の値をdocker-composeファイルの値と揃えて記入する。
 
 ## 4.動作チェック
-### task一件追加
-1. ターミナルにて次のリクエストを実行する。[curl -X POST -H "Content-Type:application/json" -d '{"userId":"1","taskName":"commit作成","taskDetail":"RestAPI作成分をcommit"}' http://localhost:8080/rest/insert]
+### CSRF-TOKENを取得する
+curl -i -c cookie.txt "http://localhost:8080/prelogin"
+#### 実行後
+- CSRF-TOKEN:368c7d5b-1b5a-4cd9-9b57-5a96a368ec65
 
-### ログインユーザーの全task一覧取得
-1. ブラウザにて次のリクエストを実行する。[http://localhost:8080/rest/getAllTasks/1]
-### ログインユーザーの未完了・未削除の全task検索
-1. ブラウザにて次のリクエストを実行する。[http://localhost:8080/rest/getNotYetTasks/1]
+### ログイン認証する。（上記のCSRF-TOKENを使う）
+curl -i -b cookie.txt -c cookie.txt -X POST -d "mailAddress=hoge@gmail.com" -d "password=hogehoge" -d "_csrf=368c7d5b-1b5a-4cd9-9b57-5a96a368ec65" "http://localhost:8080/login"
+#### 実行後
+- CSRF-TOKEN:eb92fdce-ae3a-4a26-a16b-49bc728404ce（これでUSER権限をもったユーザーでログイン完了したことになる。）
 
-### task1件更新（task完了）
-1. ターミナルにて次のリクエストを実行する。[curl -X PUT -H "Content-Type:application/json" -d '{"userId":"1","taskId":"2","taskName":"commit作成","taskDetail":"RestAPI作成分をcommit2","doneFlag":"1","deleteFlag":"0"}' http://localhost:8080/rest/update]
-### ログインユーザーの完了済の全task検索
-1. ブラウザにて次のリクエストを実行する。[http://localhost:8080/rest/getNotYetTasks/1]
+### ログアウトする。（上記のログイン後のCSRF-TOKENを使う）
+curl -i -b cookie.txt -H "x-xsrf-token:eb92fdce-ae3a-4a26-a16b-49bc728404ce" -X POST "http://localhost:8080/logout"
+- CSRF-TOKEN:eb92fdce-ae3a-4a26-a16b-49bc728404ce（ログアウトした後もローカルのTOKENは変わっていないが、これはもう使えない。）
 
-### task1件更新（task削除）
-1. ターミナルにて次のリクエストを実行する。[curl -X PUT -H "Content-Type:application/json" -d '{"userId":"1","taskId":"2","taskName":"commit作成","taskDetail":"RestAPI作成分をcommit2","doneFlag":"1","deleteFlag":"1"}' http://localhost:8080/rest/update]
-### ログインユーザーの削除済の全task検索
-1. ブラウザにて次のリクエストを実行する。[http://localhost:8080/rest/getDeletedTasks/1]
+### URERのROLEがないといけない、かつ、GETの場合。
+curl -i -b cookie.txt "http://localhost:8080/task/getAllTasks/1"
+curl -i -b cookie.txt "http://localhost:8080/task/getNotYetTasks/1"
+curl -i -b cookie.txt "http://localhost:8080/task/getDoneTasks/1"
+curl -i -b cookie.txt "http://localhost:8080/task/getDeletedTasks/1"
+curl -i -b cookie.txt "http://localhost:8080/task/getAllRevisionsOnOneTask/1"
+curl -i -b cookie.txt "http://localhost:8080/task/getAllRevisions/1"
 
-### 1件のタスクに紐づく全履歴を取得
-1. ブラウザにて次のリクエストを実行する。[http://localhost:8080/rest/getAllRevisionsOnOneTask/2]
-### 1人のユーザーに紐づく全履歴を取得
-1. ブラウザにて次のリクエストを実行する。[http://localhost:8080/rest/getAllRevisions/1]
+### USERのROLEがないといけない、かつ、POSTの場合。
+→ 実行前にCSRF-TOKENの値をcookie.txtの中身をから取って、それをHEADERに使う。
+#### taskのinsert
+curl -i -b cookie.txt -X POST -H "Content-Type:application/json" -H "x-xsrf-token:eb92fdce-ae3a-4a26-a16b-49bc728404ce" -d '{"userId":"1","taskName":"認証のテスト","taskDetail":"認証くぐれるかどうか"}' "http://localhost:8080/task/insert"
+#### taskのupdate
+curl -i -b cookie.txt -X PUT -H "Content-Type:application/json" -H "x-xsrf-token:eb92fdce-ae3a-4a26-a16b-49bc728404ce" -d '{"userId":"1","taskId":"1","taskName":"認証のテスト2","taskDetail":"認証くぐれるかどうか2","doneFlag":"0","deleteFlag":"0"}' http://localhost:8080/task/update
+#### taskのdelete(論理削除のため実際はupdate)
+curl -i -b cookie.txt -X PUT -H "Content-Type:application/json" -H "x-xsrf-token:eb92fdce-ae3a-4a26-a16b-49bc728404ce" -d '{"userId":"1","taskId":"1","taskName":"認証のテスト2","taskDetail":"認証くぐれるかどうか2","doneFlag":"1","deletedFlag":"1"}' http://localhost:8080/task/update
+#### userのinsert
+curl -i -b cookie.txt -X POST -H "Content-Type:application/json" -H "x-xsrf-token:eb92fdce-ae3a-4a26-a16b-49bc728404ce" -d '{"userName":"fugasawa","mailAddress":"fuga@gmail.com","password":"fugafuga","userRole":"ADMIN"}' "http://localhost:8080/user/insert"
+#### userのselect
+curl -i -b cookie.txt -X POST -H "Content-Type:application/json" -H "x-xsrf-token:eb92fdce-ae3a-4a26-a16b-49bc728404ce" -d '{"mailAddress":"fuga@gmail.com","password":"fugafuga"}' "http://localhost:8080/user/getUserByAddressAndPassword"
+
+### ADMINのROLEがないといけないケース
+curl -i -b cookie.txt "http://localhost:8080/admin"
+→ ちゃんと403エラーが返ってくるかどうかチェックする。
+
+### 認証が不要なAPIでも、CSRFの対象になるケース(POSTだからCSRF対象になってる？)
+→ ※「/hello」を「/prelogin」と同じようにpermitallとして、/helloコンとロラークラスを一時的に作ってテストした。
+→ 結果、POSTはpermitallしていても、通らないっぽい。
+curl -i -b cookie.txt -X POST "http://localhost:8080/hello" -d "message=WORLD" -d "_csrf=eb92fdce-ae3a-4a26-a16b-49bc728404ce"
+→通った。
+curl -i -X POST "http://localhost:8080/hello" -d "message=WORLD"
+→通らない。
+curl -i -X GET "http://localhost:8080/hello"
+→通った。
