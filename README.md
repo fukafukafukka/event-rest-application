@@ -20,6 +20,14 @@
 4. ファイル[/RestApi/src/main/resources/application.properties]内の[spring.datasource.username],[spring.datasource.password]の値をdocker-composeファイルの値と揃えて記入する。
 
 ## 4.動作チェック
+### curlオプションの意味
+- -b：cookieファイルの指定
+- -c：cookieを保存するファイルの指定
+- -d：key,value方式で、Request Bodyに入れる。
+- -H；ヘッダ情報の付与
+- -X；HTTP メソッドの指定
+- -i；httpヘッダを出力に含める
+
 ### CSRF-TOKENを取得する
 curl -i -c cookie.txt "http://localhost:8080/prelogin"
 #### 実行後
