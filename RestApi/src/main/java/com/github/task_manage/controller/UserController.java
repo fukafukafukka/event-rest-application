@@ -2,7 +2,6 @@ package com.github.task_manage.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +26,6 @@ public class UserController {
      * ユーザー１件登録
      */
     @PostMapping("/insert")
-    @CrossOrigin(allowCredentials = "true")
     public String postUser(@RequestBody User user) {
 
         // ユーザーを１件登録
@@ -44,7 +42,6 @@ public class UserController {
      * ユーザー取得
      */
 	@PostMapping("/getUserByAddressAndPassword")
-    @CrossOrigin(origins = {"http://localhost:8081"}, allowCredentials = "true")
     public User getUserByAddressAndPassword(@RequestBody SearchUser searchUser) {
         // ユーザー取得
         return service.selectUserByAddressAndPassword(searchUser);
@@ -54,7 +51,6 @@ public class UserController {
      * ユーザー１件更新
      */
     @PutMapping("/update")
-    @CrossOrigin(origins = {"http://localhost:8081"}, allowCredentials = "true")
     public String putUser(@RequestBody User user) {
         // ユーザーを１件登録
         boolean result = service.update(user);
@@ -70,7 +66,6 @@ public class UserController {
      * 1件のユーザー削除
      */
     @GetMapping("/delete/{id:.+}")
-    @CrossOrigin(origins = {"http://localhost:8081"}, allowCredentials = "true")
     public String deleteUser(@PathVariable("id") int userId) {
 
     	 // ユーザーを１件削除

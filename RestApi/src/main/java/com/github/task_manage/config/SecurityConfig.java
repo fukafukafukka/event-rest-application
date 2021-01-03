@@ -1,5 +1,7 @@
 package com.github.task_manage.config;
 
+import java.util.Arrays;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.github.task_manage.security.SimpleAccessDeniedHandler;
 import com.github.task_manage.security.SimpleAuthenticationEntryPoint;
@@ -35,6 +40,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsFilter() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowCredentials(true);        // CORSリクエストでcookie情報の取得を許可するか
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8081"));   // CORSリクエストを許可するドメイン
+        configuration.setAllowedHeaders(Arrays.asList(  // CORSリクエストで受信を許可するヘッダー情報(以下は例です)
+                "Access-Control-Allow-Headers",//左記の意味は、クライアント側からヘッダの送信を許可するまでで、次の意味は持たない。→response.addHeader("Access-Control-Allow-Headers", "*");これをセットさせるには、コントローラー側でセットする必要がある。
+                "Access-Control-Allow-Origin",
+                "Access-Control-Request-Method",
+                "Access-Control-Request-Headers",
+                "Cache-Control",
+                "Content-Type",
+                "Accept-Language",
+                "x-xsrf-token"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));  // CORSリクエストを許可するHTTPメソッド
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration); // CORSリクエストを許可するURLの形式(特に決まりがなければ「/**」でもOK)
+
+        return source;
     }
 
     // データソース
@@ -99,6 +126,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID")
                 .logoutSuccessHandler(logoutSuccessHandler());
                 //.logoutSuccessUrl("/login"); //今回はRESTなAPI作成なので不要。
+
+        // cross-origin-resource-sharingの処理
+        http
+        	.cors()
+        		.configurationSource(this.corsFilter());
 
         http
         	.csrf()
